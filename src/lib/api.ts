@@ -27,13 +27,16 @@ export const apiClient = {
   get: <T>(url: string, params?: Record<string, string>) =>
     axiosInstance.get<ApiResponse<T>>(url, { params }),
 
-  post: <T>(url: string, data?: Record<string, string>) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  post: <T>(url: string, data?: any) =>
     axiosInstance.post<ApiResponse<T>>(url, data),
 
-  put: <T>(url: string, data?: Record<string, string>) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  put: <T>(url: string, data?: any) =>
     axiosInstance.put<ApiResponse<T>>(url, data),
 
-  patch: <T>(url: string, data?: Record<string, string>) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  patch: <T>(url: string, data?: any) =>
     axiosInstance.patch<ApiResponse<T>>(url, data),
 
   delete: <T>(url: string) => axiosInstance.delete<ApiResponse<T>>(url),

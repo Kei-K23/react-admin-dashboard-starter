@@ -6,6 +6,8 @@ import RoleAndPermissionsIndexPage from "./modules/auth/pages/role-and-permissio
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import LoginPage from "./modules/auth/pages/login";
+import { Toaster } from "sonner";
 
 export default function App() {
   return (
@@ -23,7 +25,11 @@ export default function App() {
               />
             </Route>
           </Route>
+          <Route path="auth">
+            <Route path="login" element={<LoginPage />} />
+          </Route>
         </Routes>
+        <Toaster />
       </BrowserRouter>
       {import.meta.env.DEV && (
         <ReactQueryDevtools initialIsOpen={false} position="bottom" />
