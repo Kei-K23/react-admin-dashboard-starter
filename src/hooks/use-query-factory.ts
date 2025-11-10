@@ -11,21 +11,19 @@ export const createQueryHook = <TData, TError = ApiError>(
   key: QueryKey,
   fetcher: () => Promise<ApiResponse<TData>>,
   options?: Omit<
-    UseQueryOptions<ApiResponse<TData>, TError>,
-    "queryKey" | "queryFn"
+    UseQueryOptions<ApiResponse<TData>, TError, TData>,
+    "queryKey" | "queryFn" | "select"
   >
 ) => {
   return (): UseQueryResult<TData, TError> => {
-    const result = useQuery<ApiResponse<TData>, TError>({
+    const result = useQuery<ApiResponse<TData>, TError, TData>({
       queryKey: key,
       queryFn: fetcher,
+      select: (response) => response.data,
       ...options,
     });
 
-    return {
-      ...result,
-      data: result.data?.data,
-    } as UseQueryResult<TData, TError>;
+    return result;
   };
 };
 
@@ -34,22 +32,20 @@ export const createPaginatedQueryHook = <TData, TError = ApiError>(
   key: QueryKey,
   fetcher: (params: Record<string, string>) => Promise<ApiResponse<TData[]>>,
   options?: Omit<
-    UseQueryOptions<ApiResponse<TData[]>, TError>,
-    "queryKey" | "queryFn"
+    UseQueryOptions<ApiResponse<TData[]>, TError, TData[]>,
+    "queryKey" | "queryFn" | "select"
   >
 ) => {
   return (params?: Record<string, string>): UseQueryResult<TData[], TError> => {
     const queryKey = [...key, params];
 
-    const result = useQuery<ApiResponse<TData[]>, TError>({
+    const result = useQuery<ApiResponse<TData[]>, TError, TData[]>({
       queryKey,
       queryFn: () => fetcher(params || {}),
+      select: (response) => response.data ?? [],
       ...options,
     });
 
-    return {
-      ...result,
-      data: result.data?.data || [],
-    } as UseQueryResult<TData[], TError>;
+    return result;
   };
 };

@@ -8,21 +8,44 @@ import { queryClient } from "./lib/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import LoginPage from "./modules/auth/pages/login";
 import { Toaster } from "sonner";
+import ProtectedRoute from "./modules/auth/components/protected-route";
+import PermissionGuard from "./modules/auth/components/permission-guard";
+import { PermissionEnum } from "./modules/auth/services/auth-services";
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
+          {/* Protected application routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<DashboardLayout />}>
+              <Route index element={<DashboardPage />} />
 
-            <Route path="administration">
-              <Route path="admin" element={<AdminIndexPage />} />
-              <Route
-                path="role-permissions"
-                element={<RoleAndPermissionsIndexPage />}
-              />
+              <Route path="administration">
+                <Route
+                  path="admin"
+                  element={
+                    <PermissionGuard
+                      module="Users"
+                      permission={PermissionEnum.Read}
+                    >
+                      <AdminIndexPage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="role-permissions"
+                  element={
+                    <PermissionGuard
+                      module="Roles"
+                      permission={PermissionEnum.Read}
+                    >
+                      <RoleAndPermissionsIndexPage />
+                    </PermissionGuard>
+                  }
+                />
+              </Route>
             </Route>
           </Route>
           <Route path="auth">

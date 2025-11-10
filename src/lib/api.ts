@@ -20,6 +20,16 @@ export interface ApiError {
   message: string;
   status: number;
   code?: string;
+  response: {
+    data: {
+      details: string;
+      error: string;
+      message: string;
+      statusCode: number;
+      success: boolean;
+      timestamp: string;
+    };
+  };
 }
 
 // Generic HTTP methods

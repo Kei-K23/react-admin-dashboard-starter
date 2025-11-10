@@ -13,14 +13,77 @@ export interface LoginResponse extends BaseResponse {
   data: {
     accessToken: string;
     refreshToken: string;
+    accessTokenExpiresAt: string;
+    refreshTokenExpiresAt: string;
     user: {
       id: string;
-      email: string;
-      fullName: string;
     };
   };
 }
 
+export interface RefreshResponse extends BaseResponse {
+  data: {
+    accessToken: string;
+    accessTokenExpiresAt: string;
+    user: {
+      id: string;
+    };
+  };
+}
+
+export interface GetProfileResponse extends BaseResponse {
+  data: UserWithRole;
+}
+
+export interface UserWithRole {
+  id: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  isBanned: boolean;
+  profileImageUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+  lastLoginAt: Date;
+  twoFactorEnabled: boolean;
+  roleId: string;
+  role: Role;
+}
+
+export interface Role {
+  id: string;
+  name: string;
+  description: string;
+  rolePermissions: RolePermission[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface RolePermission {
+  id: string;
+  roleId: string;
+  permissionId: string;
+  permission: PermissionClass;
+}
+
+export interface PermissionClass {
+  id: string;
+  module: string;
+  permission: PermissionEnum;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export enum PermissionEnum {
+  Create = "CREATE",
+  Delete = "DELETE",
+  Read = "READ",
+  Update = "UPDATE",
+}
+
 export const authService = {
+  getProfile: () => apiClient.get<GetProfileResponse>("/auth/profile"),
   login: (data: LoginDto) => apiClient.post<LoginResponse>("/auth/login", data),
+  refresh: (refreshToken: string) =>
+    apiClient.post<RefreshResponse>("/auth/refresh", { refreshToken }),
 };
