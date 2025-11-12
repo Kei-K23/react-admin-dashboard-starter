@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { loginSchema } from "../../services/auth-services";
+import { loginSchema } from "../../services/auth-service";
 import {
   Form,
   FormControl,
@@ -31,7 +31,7 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/common/constraints";
 export default function LoginPage() {
   const navigate = useNavigate();
   const loginMutation = useLogin();
-  const { data: profile } = useProfile();
+  const { data: profile, refetch } = useProfile();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -66,6 +66,8 @@ export default function LoginPage() {
         });
 
         toast.success(data.data.message);
+        // Refetch profile after login to update permissions
+        refetch();
         navigate("/", { replace: true });
       },
       onError: (error) => {

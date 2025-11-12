@@ -10,7 +10,8 @@ import LoginPage from "./modules/auth/pages/login";
 import { Toaster } from "sonner";
 import ProtectedRoute from "./modules/auth/components/protected-route";
 import PermissionGuard from "./modules/auth/components/permission-guard";
-import { PermissionEnum } from "./modules/auth/services/auth-services";
+import RoleAndPermissionsCreatePage from "./modules/auth/pages/role-and-permissions/create";
+import { PermissionEnum } from "./modules/auth/services/role-and-permissions-service";
 
 export default function App() {
   return (
@@ -42,6 +43,17 @@ export default function App() {
                       permission={PermissionEnum.Read}
                     >
                       <RoleAndPermissionsIndexPage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="role-permissions/create"
+                  element={
+                    <PermissionGuard
+                      module="Roles"
+                      permission={PermissionEnum.Create}
+                    >
+                      <RoleAndPermissionsCreatePage />
                     </PermissionGuard>
                   }
                 />

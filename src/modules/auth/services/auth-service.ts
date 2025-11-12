@@ -1,6 +1,7 @@
 import type { BaseResponse } from "@/common/interfaces/base-response";
 import apiClient from "@/lib/api";
 import z from "zod";
+import type { Role } from "./role-and-permissions-service";
 
 export const loginSchema = z.object({
   email: z.email().min(3).max(50),
@@ -48,37 +49,6 @@ export interface UserWithRole {
   twoFactorEnabled: boolean;
   roleId: string;
   role: Role;
-}
-
-export interface Role {
-  id: string;
-  name: string;
-  description: string;
-  rolePermissions: RolePermission[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface RolePermission {
-  id: string;
-  roleId: string;
-  permissionId: string;
-  permission: PermissionClass;
-}
-
-export interface PermissionClass {
-  id: string;
-  module: string;
-  permission: PermissionEnum;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export enum PermissionEnum {
-  Create = "CREATE",
-  Delete = "DELETE",
-  Read = "READ",
-  Update = "UPDATE",
 }
 
 export const authService = {

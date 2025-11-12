@@ -3,12 +3,7 @@ import { createQueryHook } from "@/hooks/use-query-factory";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-import {
-  authService,
-  PermissionEnum,
-  type GetProfileResponse,
-  type UserWithRole,
-} from "../services/auth-services";
+import { authService, type GetProfileResponse } from "../services/auth-service";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/common/constraints";
 
 export const useLogin = createMutationHook(authService.login);
@@ -42,16 +37,4 @@ export const useLogout = () => {
 export const useAuthStatus = () => {
   const isAuthenticated = Boolean(Cookies.get(ACCESS_TOKEN_KEY));
   return { isAuthenticated };
-};
-
-export const hasPermission = (
-  user: UserWithRole | undefined,
-  module: string,
-  permission: PermissionEnum
-) => {
-  if (!user?.role?.rolePermissions) return false;
-  return user.role.rolePermissions.some(
-    (rp) =>
-      rp.permission.module === module && rp.permission.permission === permission
-  );
 };
