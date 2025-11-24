@@ -10,6 +10,10 @@ export const createRoleSchema = z.object({
 
 export type CreateRoleDto = z.infer<typeof createRoleSchema>;
 
+export interface GetAllRolesResponse extends BaseResponse {
+  data: Role[];
+}
+
 export interface GetAllPermissionsResponse extends BaseResponse {
   data: PermissionClass[];
 }
@@ -44,6 +48,7 @@ export enum PermissionEnum {
 }
 
 export const roleAndPermissionsService = {
+  getAllRoles: () => apiClient.get<GetAllRolesResponse>("/roles"),
   getAllPermissions: () =>
     apiClient.get<GetAllPermissionsResponse>("/roles/permissions"),
   createRole: (data: CreateRoleDto) => apiClient.post("/roles", data),

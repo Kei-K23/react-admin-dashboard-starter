@@ -34,6 +34,7 @@ import {
   createRoleSchema,
   PermissionEnum,
 } from "../../services/role-and-permissions-service";
+import { useQueryClient } from "@tanstack/react-query";
 
 const permissionKeys = [
   PermissionEnum.Create,
@@ -51,6 +52,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function RoleAndPermissionsCreatePage() {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: permissions } = useGetAllPermissions();
   const roleMutation = useCreateRole();
@@ -120,6 +122,10 @@ export default function RoleAndPermissionsCreatePage() {
       onSuccess: () => {
         toast.success("Role created successfully");
         form.reset();
+        // Revalidate the role-permissions page to show the new role
+        queryClient.invalidateQueries({ queryKey: ["roles"] });
+        queryClient.invalidateQueries({ queryKey: ["roles", "permissions"] });
+
         navigate("/administration/role-permissions");
       },
       onError: (error) => {

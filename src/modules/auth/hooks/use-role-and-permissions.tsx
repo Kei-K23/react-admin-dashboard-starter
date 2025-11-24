@@ -5,7 +5,13 @@ import {
   PermissionEnum,
   roleAndPermissionsService,
   type GetAllPermissionsResponse,
+  type GetAllRolesResponse,
 } from "../services/role-and-permissions-service";
+
+export const useGetAllRoles = createQueryHook<GetAllRolesResponse>(
+  ["roles"],
+  roleAndPermissionsService.getAllRoles as never
+);
 
 export const useGetAllPermissions = createQueryHook<GetAllPermissionsResponse>(
   ["roles", "permissions"],
