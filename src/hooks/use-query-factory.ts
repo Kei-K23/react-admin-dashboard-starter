@@ -9,16 +9,16 @@ import {
 // Generic query hook factory
 export const createQueryHook = <TData, TError = ApiError>(
   key: QueryKey,
-  fetcher: () => Promise<ApiResponse<TData>>,
+  fetcher: (params?: Record<string, string>) => Promise<ApiResponse<TData>>,
   options?: Omit<
     UseQueryOptions<ApiResponse<TData>, TError, TData>,
     "queryKey" | "queryFn" | "select"
   >
 ) => {
-  return (): UseQueryResult<TData, TError> => {
+  return (params?: Record<string, string>): UseQueryResult<TData, TError> => {
     const result = useQuery<ApiResponse<TData>, TError, TData>({
       queryKey: key,
-      queryFn: fetcher,
+      queryFn: () => fetcher(params || {}),
       select: (response) => response.data,
       ...options,
     });

@@ -11,6 +11,8 @@ import { Toaster } from "sonner";
 import ProtectedRoute from "./modules/auth/components/protected-route";
 import PermissionGuard from "./modules/auth/components/permission-guard";
 import RoleAndPermissionsCreatePage from "./modules/auth/pages/role-and-permissions/create";
+import RoleDetailPage from "./modules/auth/pages/role-and-permissions/detail";
+import RoleAndPermissionsEditPage from "./modules/auth/pages/role-and-permissions/edit";
 import { PermissionEnum } from "./modules/auth/services/role-and-permissions-service";
 
 export default function App() {
@@ -54,6 +56,28 @@ export default function App() {
                       permission={PermissionEnum.Create}
                     >
                       <RoleAndPermissionsCreatePage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="role-permissions/:id"
+                  element={
+                    <PermissionGuard
+                      module="Roles"
+                      permission={PermissionEnum.Read}
+                    >
+                      <RoleDetailPage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="role-permissions/:id/edit"
+                  element={
+                    <PermissionGuard
+                      module="Roles"
+                      permission={PermissionEnum.Update}
+                    >
+                      <RoleAndPermissionsEditPage />
                     </PermissionGuard>
                   }
                 />

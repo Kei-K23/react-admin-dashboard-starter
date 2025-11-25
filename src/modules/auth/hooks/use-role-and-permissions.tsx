@@ -6,12 +6,19 @@ import {
   roleAndPermissionsService,
   type GetAllPermissionsResponse,
   type GetAllRolesResponse,
+  type GetRoleResponse,
 } from "../services/role-and-permissions-service";
 
 export const useGetAllRoles = createQueryHook<GetAllRolesResponse>(
   ["roles"],
   roleAndPermissionsService.getAllRoles as never
 );
+
+export const useGetRoleById = (id: string) =>
+  createQueryHook<GetRoleResponse>(
+    ["roles", "detail", id],
+    roleAndPermissionsService.getRoleById as never
+  );
 
 export const useGetAllPermissions = createQueryHook<GetAllPermissionsResponse>(
   ["roles", "permissions"],
@@ -20,6 +27,17 @@ export const useGetAllPermissions = createQueryHook<GetAllPermissionsResponse>(
 
 export const useCreateRole = createMutationHook(
   roleAndPermissionsService.createRole
+);
+
+export const useDeleteRole = createMutationHook(
+  roleAndPermissionsService.deleteRole,
+  {
+    invalidateQueries: [["roles"]],
+  }
+);
+
+export const useUpdateRole = createMutationHook(
+  roleAndPermissionsService.updateRole
 );
 
 export const hasPermission = (
