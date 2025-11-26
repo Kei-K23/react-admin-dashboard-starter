@@ -1,5 +1,4 @@
 import { createQueryHook } from "@/hooks/use-query-factory";
-import { type UserWithRole } from "../services/auth-service";
 import { createMutationHook } from "@/hooks/use-mutation-factory";
 import {
   PermissionEnum,
@@ -7,7 +6,8 @@ import {
   type GetAllPermissionsResponse,
   type GetAllRolesResponse,
   type GetRoleResponse,
-} from "../services/role-and-permissions-service";
+} from "../services/role-and-permissions.service";
+import type { UserWithRole } from "../services/user.service";
 
 export const useGetAllRoles = createQueryHook<GetAllRolesResponse>(
   ["roles"],

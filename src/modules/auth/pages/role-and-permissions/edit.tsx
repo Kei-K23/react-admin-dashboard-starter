@@ -34,7 +34,7 @@ import {
 import {
   updateRoleSchema,
   PermissionEnum,
-} from "../../services/role-and-permissions-service";
+} from "../../services/role-and-permissions.service";
 import { useQueryClient } from "@tanstack/react-query";
 
 const permissionKeys = [

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DeleteIcon, EditIcon, MoreHorizontal, ViewIcon } from "lucide-react";
 import { useNavigate } from "react-router";
-import type { Role } from "../services/role-and-permissions-service";
+import type { Role } from "../services/role-and-permissions.service";
 import { toast } from "sonner";
 import { useDeleteRole } from "../hooks/use-role-and-permissions";
 import { useState } from "react";

@@ -1,7 +1,7 @@
 import { Navigate } from "react-router";
 import { useProfile } from "../hooks/use-auth";
 import type { ReactNode } from "react";
-import type { PermissionEnum } from "../services/role-and-permissions-service";
+import type { PermissionEnum } from "../services/role-and-permissions.service";
 import { hasPermission } from "../hooks/use-role-and-permissions";
 
 interface Props {

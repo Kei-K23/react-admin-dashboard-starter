@@ -1,10 +1,10 @@
 import type { BaseResponse } from "@/common/interfaces/base-response";
 import apiClient from "@/lib/api";
 import z from "zod";
-import type { Role } from "./role-and-permissions-service";
+import type { UserWithRole } from "./user.service";
 
 export const loginSchema = z.object({
-  email: z.email().min(3).max(50),
+  email: z.string().email().min(3).max(50),
   password: z.string().min(6).max(18),
 });
 
@@ -34,21 +34,6 @@ export interface RefreshResponse extends BaseResponse {
 
 export interface GetProfileResponse extends BaseResponse {
   data: UserWithRole;
-}
-
-export interface UserWithRole {
-  id: string;
-  email: string;
-  fullName: string;
-  phone: string;
-  isBanned: boolean;
-  profileImageUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
-  lastLoginAt: Date;
-  twoFactorEnabled: boolean;
-  roleId: string;
-  role: Role;
 }
 
 export const authService = {

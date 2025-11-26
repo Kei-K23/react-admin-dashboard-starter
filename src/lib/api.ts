@@ -1,4 +1,5 @@
 import axiosInstance from "../lib/axios";
+import type { AxiosRequestConfig } from "axios";
 
 export interface ApiResponse<T> {
   data: T;
@@ -38,8 +39,8 @@ export const apiClient = {
     axiosInstance.get<ApiResponse<T>>(url, { params }),
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  post: <T>(url: string, data?: any) =>
-    axiosInstance.post<ApiResponse<T>>(url, data),
+  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+    axiosInstance.post<ApiResponse<T>>(url, data, config),
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   put: <T>(url: string, data?: any) =>

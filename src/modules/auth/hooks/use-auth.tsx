@@ -3,7 +3,7 @@ import { createQueryHook } from "@/hooks/use-query-factory";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-import { authService, type GetProfileResponse } from "../services/auth-service";
+import { authService, type GetProfileResponse } from "../services/auth.service";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/common/constraints";
 
 export const useLogin = createMutationHook(authService.login);

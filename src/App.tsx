@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import DashboardLayout from "./components/layout/main/dashboard-layout";
 import DashboardPage from "./components/layout/main/dashboard";
-import AdminIndexPage from "./modules/auth/pages/admin";
+import UserIndexPage from "./modules/auth/pages/user";
 import RoleAndPermissionsIndexPage from "./modules/auth/pages/role-and-permissions";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/react-query";
@@ -11,9 +11,10 @@ import { Toaster } from "sonner";
 import ProtectedRoute from "./modules/auth/components/protected-route";
 import PermissionGuard from "./modules/auth/components/permission-guard";
 import RoleAndPermissionsCreatePage from "./modules/auth/pages/role-and-permissions/create";
+import UserCreatePage from "./modules/auth/pages/user/create";
 import RoleDetailPage from "./modules/auth/pages/role-and-permissions/detail";
 import RoleAndPermissionsEditPage from "./modules/auth/pages/role-and-permissions/edit";
-import { PermissionEnum } from "./modules/auth/services/role-and-permissions-service";
+import { PermissionEnum } from "./modules/auth/services/role-and-permissions.service";
 
 export default function App() {
   return (
@@ -27,13 +28,24 @@ export default function App() {
 
               <Route path="administration">
                 <Route
-                  path="admin"
+                  path="users"
                   element={
                     <PermissionGuard
                       module="Users"
                       permission={PermissionEnum.Read}
                     >
-                      <AdminIndexPage />
+                      <UserIndexPage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="users/create"
+                  element={
+                    <PermissionGuard
+                      module="Users"
+                      permission={PermissionEnum.Create}
+                    >
+                      <UserCreatePage />
                     </PermissionGuard>
                   }
                 />

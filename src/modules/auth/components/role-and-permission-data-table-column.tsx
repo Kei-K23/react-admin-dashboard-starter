@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Role } from "../services/role-and-permissions-service";
+import type { Role } from "../services/role-and-permissions.service";
 import { format } from "date-fns";
 import { RoleAndPermissionActionsCell } from "./role-and-permission-actions-cell";
 

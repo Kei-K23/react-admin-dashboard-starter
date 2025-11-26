@@ -20,7 +20,7 @@ import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
 import { useProfile } from "@/modules/auth/hooks/use-auth";
 import { PERMISSION_MODULES } from "@/common/constraints";
-import { PermissionEnum } from "@/modules/auth/services/role-and-permissions-service";
+import { PermissionEnum } from "@/modules/auth/services/role-and-permissions.service";
 import { hasPermission } from "@/modules/auth/hooks/use-role-and-permissions";
 
 // This is sample data.
@@ -44,8 +44,8 @@ const data = {
       icon: IconUserCog,
       items: [
         {
-          title: "Admin",
-          url: "/administration/admin",
+          title: "Users",
+          url: "/administration/users",
         },
         {
           title: "Role & Permissions",
