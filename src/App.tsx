@@ -12,6 +12,8 @@ import ProtectedRoute from "./modules/auth/components/protected-route";
 import PermissionGuard from "./modules/auth/components/permission-guard";
 import RoleAndPermissionsCreatePage from "./modules/auth/pages/role-and-permissions/create";
 import UserCreatePage from "./modules/auth/pages/user/create";
+import UserDetailPage from "./modules/auth/pages/user/detail";
+import UserEditPage from "./modules/auth/pages/user/edit";
 import RoleDetailPage from "./modules/auth/pages/role-and-permissions/detail";
 import RoleAndPermissionsEditPage from "./modules/auth/pages/role-and-permissions/edit";
 import { PermissionEnum } from "./modules/auth/services/role-and-permissions.service";
@@ -46,6 +48,28 @@ export default function App() {
                       permission={PermissionEnum.Create}
                     >
                       <UserCreatePage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="users/:id"
+                  element={
+                    <PermissionGuard
+                      module="Users"
+                      permission={PermissionEnum.Read}
+                    >
+                      <UserDetailPage />
+                    </PermissionGuard>
+                  }
+                />
+                <Route
+                  path="users/:id/edit"
+                  element={
+                    <PermissionGuard
+                      module="Users"
+                      permission={PermissionEnum.Update}
+                    >
+                      <UserEditPage />
                     </PermissionGuard>
                   }
                 />

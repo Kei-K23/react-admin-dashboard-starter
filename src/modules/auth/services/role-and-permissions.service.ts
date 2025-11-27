@@ -1,4 +1,8 @@
-import type { BaseResponse } from "@/common/interfaces/base-response";
+import type {
+  BaseGetAllFilter,
+  BaseResponse,
+  ResponseGetAllMetaData,
+} from "@/common/interfaces/base-response";
 import apiClient from "@/lib/api";
 import z from "zod";
 
@@ -21,6 +25,7 @@ export type UpdateRoleDto = z.infer<typeof updateRoleSchema>;
 
 export interface GetAllRolesResponse extends BaseResponse {
   data: Role[];
+  meta: ResponseGetAllMetaData;
 }
 
 export interface GetRoleResponse extends BaseResponse {
@@ -29,6 +34,10 @@ export interface GetRoleResponse extends BaseResponse {
 
 export interface GetAllPermissionsResponse extends BaseResponse {
   data: PermissionClass[];
+}
+
+export interface GetAllRolesParams extends BaseGetAllFilter {
+  search?: string | undefined;
 }
 
 export interface RoleDeletedResponse extends BaseResponse {
@@ -65,16 +74,22 @@ export enum PermissionEnum {
 }
 
 export const roleAndPermissionsService = {
-  getAllRoles: () => apiClient.get<GetAllRolesResponse>("/roles"),
+  getAllRoles: (params?: GetAllRolesParams) =>
+    apiClient.get<GetAllRolesResponse>("/roles", params),
+
   getRoleById: (params: { id: string }) =>
     apiClient.get<GetRoleResponse>(`/roles/${params.id}`),
+
   getAllPermissions: () =>
     apiClient.get<GetAllPermissionsResponse>("/roles/permissions"),
+
   createRole: (data: CreateRoleDto) => apiClient.post("/roles", data),
+
   updateRole: (payload: UpdateRoleDto & { id: string }) => {
     const { id, ...data } = payload;
     return apiClient.patch<GetRoleResponse>(`/roles/${id}`, data);
   },
+
   deleteRole: (id: string) =>
     apiClient.delete<RoleDeletedResponse>(`/roles/${id}`),
 };

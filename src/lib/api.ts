@@ -35,7 +35,8 @@ export interface ApiError {
 
 // Generic HTTP methods
 export const apiClient = {
-  get: <T>(url: string, params?: Record<string, string>) =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get: <T>(url: string, params?: any) =>
     axiosInstance.get<ApiResponse<T>>(url, { params }),
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,8 +48,8 @@ export const apiClient = {
     axiosInstance.put<ApiResponse<T>>(url, data),
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  patch: <T>(url: string, data?: any) =>
-    axiosInstance.patch<ApiResponse<T>>(url, data),
+  patch: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+    axiosInstance.patch<ApiResponse<T>>(url, data, config),
 
   delete: <T>(url: string) => axiosInstance.delete<ApiResponse<T>>(url),
 };

@@ -1,3 +1,5 @@
+"use no memo";
+
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router";

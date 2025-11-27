@@ -1,3 +1,5 @@
+"use no memo";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -17,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate, Link } from "react-router";
@@ -32,7 +35,10 @@ type FormValues = z.infer<typeof createUserSchema>;
 export default function UserCreatePage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data: roles } = useGetAllRoles();
+  const { data: roles } = useGetAllRoles({ getAll: "true" })({
+    getAll: "true",
+  });
+
   const createMutation = useCreateUser();
 
   const form = useForm<FormValues>({
@@ -62,7 +68,7 @@ export default function UserCreatePage() {
       onSuccess: ({ message }) => {
         toast.success(message ?? "User created successfully");
         queryClient.invalidateQueries({ queryKey: ["users"] });
-        navigate("/administration/users");
+        navigate("/administration/admin");
       },
       onError: ({ response }) => {
         toast.error(response?.data?.message ?? "Failed to create user");
@@ -74,7 +80,7 @@ export default function UserCreatePage() {
     <div className="p-6 space-y-6">
       <section className="flex items-center justify-between">
         <Button asChild variant="ghost">
-          <Link to="/administration/admin">
+          <Link to="/administration/users">
             <ArrowLeft className="mr-2" /> Back
           </Link>
         </Button>
@@ -184,13 +190,10 @@ export default function UserCreatePage() {
                   <FormItem>
                     <FormLabel>Profile Image (optional)</FormLabel>
                     <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          field.onChange(file);
-                        }}
+                      <ImageUpload
+                        value={field.value as File | undefined}
+                        onChange={field.onChange}
+                        disabled={createMutation.isPending}
                       />
                     </FormControl>
                     <FormMessage />

@@ -2,17 +2,19 @@ import { createQueryHook } from "@/hooks/use-query-factory";
 import { createMutationHook } from "@/hooks/use-mutation-factory";
 import {
   userService,
+  type GetAllUsersParams,
   type GetAllUsersResponse,
-  type UserWithRole,
+  type GetUserResponse,
 } from "../services/user.service";
 
-export const useGetAllUsers = createQueryHook<GetAllUsersResponse>(
-  ["users"],
-  userService.getAllUsers as never
-);
+export const useGetAllUsers = (params?: GetAllUsersParams) =>
+  createQueryHook<GetAllUsersResponse>(
+    ["users", JSON.stringify(params)],
+    userService.getAllUsers as never
+  );
 
 export const useGetUserById = (id: string) =>
-  createQueryHook<UserWithRole>(
+  createQueryHook<GetUserResponse>(
     ["users", "detail", id],
     userService.getUserById as never
   );

@@ -3,16 +3,18 @@ import { createMutationHook } from "@/hooks/use-mutation-factory";
 import {
   PermissionEnum,
   roleAndPermissionsService,
+  type GetAllRolesParams,
   type GetAllPermissionsResponse,
   type GetAllRolesResponse,
   type GetRoleResponse,
 } from "../services/role-and-permissions.service";
 import type { UserWithRole } from "../services/user.service";
 
-export const useGetAllRoles = createQueryHook<GetAllRolesResponse>(
-  ["roles"],
-  roleAndPermissionsService.getAllRoles as never
-);
+export const useGetAllRoles = (params?: GetAllRolesParams) =>
+  createQueryHook<GetAllRolesResponse>(
+    ["roles", JSON.stringify(params)],
+    roleAndPermissionsService.getAllRoles as never
+  );
 
 export const useGetRoleById = (id: string) =>
   createQueryHook<GetRoleResponse>(
