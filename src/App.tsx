@@ -15,8 +15,11 @@ import UserCreatePage from "./modules/auth/pages/user/create";
 import UserDetailPage from "./modules/auth/pages/user/detail";
 import UserEditPage from "./modules/auth/pages/user/edit";
 import RoleDetailPage from "./modules/auth/pages/role-and-permissions/detail";
+import ProfilePage from "./modules/auth/pages/profile";
+import ProfileEditPage from "./modules/auth/pages/profile/edit";
 import RoleAndPermissionsEditPage from "./modules/auth/pages/role-and-permissions/edit";
 import { PermissionEnum } from "./modules/auth/services/role-and-permissions.service";
+import NotFound from "./components/layout/main/not-found";
 
 export default function App() {
   return (
@@ -27,6 +30,11 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route index element={<DashboardPage />} />
+
+              <Route path="account">
+                <Route path="profile" element={<ProfilePage />} />
+                <Route path="profile/edit" element={<ProfileEditPage />} />
+              </Route>
 
               <Route path="administration">
                 <Route
@@ -119,9 +127,11 @@ export default function App() {
                 />
               </Route>
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="auth">
             <Route path="login" element={<LoginPage />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
         <Toaster />
