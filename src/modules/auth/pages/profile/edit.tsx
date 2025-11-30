@@ -209,6 +209,7 @@ export default function ProfileEditPage() {
                         value={field.value as File | undefined}
                         onChange={field.onChange}
                         disabled={updateMutation.isPending}
+                        initialUrl={profile.data.profileImageUrl}
                       />
                     </FormControl>
                     <FormMessage />

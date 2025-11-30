@@ -138,7 +138,7 @@ export default function UserDetailPage() {
           </Card>
 
           {/* Role Permissions */}
-          <Card className="xl:col-span-3">
+          <Card className="xl:col-span-2">
             <CardHeader>
               <CardTitle>Role Permissions</CardTitle>
             </CardHeader>

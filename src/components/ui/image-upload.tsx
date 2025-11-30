@@ -8,6 +8,7 @@ interface ImageUploadProps {
   onChange: (file?: File) => void;
   disabled?: boolean;
   className?: string;
+  initialUrl?: string;
 }
 
 export function ImageUpload({
@@ -15,22 +16,20 @@ export function ImageUpload({
   onChange,
   disabled,
   className,
+  initialUrl,
 }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!value) {
-      setPreviewUrl((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return undefined;
-      });
-      return;
+    if (value) {
+      const url = URL.createObjectURL(value);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
     }
-    const url = URL.createObjectURL(value);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [value]);
+    setPreviewUrl(initialUrl);
+    return;
+  }, [value, initialUrl]);
 
   const handleSelectClick = () => {
     inputRef.current?.click();
@@ -53,6 +52,7 @@ export function ImageUpload({
 
   const handleRemove = () => {
     onChange(undefined);
+    setPreviewUrl("");
     if (inputRef.current) inputRef.current.value = "";
   };
 

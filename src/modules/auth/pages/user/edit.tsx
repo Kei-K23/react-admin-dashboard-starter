@@ -251,6 +251,7 @@ export default function UserEditPage() {
                         value={field.value as File | undefined}
                         onChange={field.onChange}
                         disabled={updateMutation.isPending}
+                        initialUrl={user?.data?.profileImageUrl}
                       />
                     </FormControl>
                     <FormMessage />
